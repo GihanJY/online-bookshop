@@ -3,15 +3,15 @@ const User = require('../models/user');
 /**
  * @desc    Register a new user
  * @route   POST /api/users/register
- * @param   {Object} req - Express request object containing name, email, password
+ * @param   {Object} req - Express request object containing firstName, lastName, email, password
  * @param   {Object} res - Express response object
  * @returns {Object} JSON response with success message and user data or error
  */
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { firstName, lastName, email, password } = req.body;
 
-        if (!name || !email || !password) {
+        if (!firstName || !lastName || !email || !password) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
@@ -20,7 +20,7 @@ const registerUser = async (req, res) => {
             return res.status(400).json({ message: 'User already exists' });
         }
 
-        const newUser = new User({ name, email, password });
+        const newUser = new User({ firstName, lastName, email, password });
         await newUser.save();
 
         res.status(201).json({ message: 'User registered successfully', user: newUser });

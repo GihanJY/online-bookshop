@@ -1,11 +1,13 @@
-require('dotenv').config();
-import cors from 'cors';
-import express from 'express';
+const cors = require('cors');
+const dotenv = require('dotenv');
+const express = require('express');
+const mongoose = require('mongoose');
 
+dotenv.config();
 const app = express();
 
-import userRoutes from './routes/userRoutes';
-import bookRoutes from './routes/bookRoutes';
+const userRoutes = require('./routes/userRoutes');
+const bookRoutes = require('./routes/bookRoutes');
 
 app.use(cors());
 app.use(express.json());
@@ -19,7 +21,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 const PORT = process.env.PORT;
   app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port http://localhost:${PORT}`);
 });
 
 app.get('/', (req, res) => {
