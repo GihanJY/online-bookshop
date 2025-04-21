@@ -1,7 +1,6 @@
 require('dotenv').config();
 import cors from 'cors';
-import express, { json } from 'express';
-import { connect } from 'mongoose';
+import express from 'express';
 
 const app = express();
 
