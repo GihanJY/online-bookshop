@@ -1,0 +1,121 @@
+/* Container for register page */
+.register-container {
+    display: flex;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* Left side image */
+.register-image {
+    flex: 1;
+    overflow: hidden;
+}
+
+.register-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Right side form */
+.register-form {
+    flex: 1;
+    padding: 60px;
+    background-color: #f8f8f8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.register-form h2 {
+    color: #d90000;
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+/* Input Fields */
+.register-input {
+    padding: 12px 14px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    width: 100%;
+}
+
+/* reCAPTCHA Placeholder */
+.register-recaptcha-placeholder {
+    margin-bottom: 20px;
+}
+
+.register-recaptcha-box {
+    border: 1px solid #ccc;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: white;
+    border-radius: 4px;
+}
+
+.register-recaptcha-img {
+    margin-left: auto;
+    font-size: 12px;
+    color: #888;
+}
+
+/* Buttons */
+.register-btn {
+    background-color: #d90000;
+    color: white;
+    padding: 12px;
+    border: none;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.register-btn:hover {
+    background-color: #b80000;
+}
+
+/* Google button */
+.register-google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d90000;
+    color: #d90000;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    gap: 10px;
+}
+
+.register-google-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+.register-google-btn:hover {
+    background-color: #f2f2f2;
+}
+
+/* Text below form */
+.register-switch-text {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.register-switch-text a {
+    color: #d90000;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.register-switch-text a:hover {
+    text-decoration: underline;
+}
