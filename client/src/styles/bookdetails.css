@@ -1,0 +1,99 @@
+.book-details-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 150px;
+    padding: 50px 0px 50px 0px;
+    font-family: Arial, sans-serif;
+}
+
+.book-cover-container {
+    position: relative;
+}
+
+.book-cover {
+    width: 250px;
+    border: 2px solid #ccc;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 50%;
+}
+
+.book-info {
+    max-width: 500px;
+}
+
+.book-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.price-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.discounted-price {
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.stock-status {
+    color: red;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 50px;
+}
+
+.book-request-btn, .wishlist-btn {
+    padding: 10px 20px;
+    width: 120px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.book-request-btn {
+    background-color: red;
+    color: white;
+}
+
+.wishlist-btn {
+    background-color: #333;
+    color: white;
+}
+
+.social-icons {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #555;
+    display: flex;
+    gap: 15px;
+}
+
+/* Optional: load font awesome if not already loaded */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');

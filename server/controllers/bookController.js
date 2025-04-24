@@ -42,15 +42,15 @@ const getBookById = async (req, res) => {
 /**
  * @desc    Create a new book
  * @route   POST /api/books
- * @param   {Object} req - Express request object containing book details
+ * @param   {Object} req - Express request object containing book details in the body
  * @param   {Object} res - Express response object
- * @returns {Object} JSON response with success message and new book data or error
+ * @returns {Object} JSON response with success message and newly created book data or error
  */
 const createBook = async (req, res) => {
     try {
-        const { title, author, description, price, image, category, stock, createdAt } = req.body;
+        const { title, author, description, price, isbn, image, category, stock, createdAt } = req.body;
 
-        if (!title || !author || !description || !price || !image || !category || !stock || !createdAt) {
+        if (!title || !author || !description || !price || !isbn || !image || !category || !stock || !createdAt) {
             return res.status(400).json({ message: 'All fields are required.' });
         }
 
@@ -60,7 +60,7 @@ const createBook = async (req, res) => {
             return res.status(400).json({ message: 'Book already exists.' });
         }
 
-        const newBook = new Book({ title, author, description, price, image, category, stock, createdAt });
+        const newBook = new Book({ title, author, description, price, isbn, image, category, stock, createdAt });
         await newBook.save();
 
         res.status(201).json({ message: 'Book registered successfully', book: newBook });

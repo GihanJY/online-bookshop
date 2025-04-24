@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const BookCarousel = ({ title, bookMap }) => {
-  const [currentPage, setCurrentPage] = useState(0);
+  const navigate = useNavigate();
   const containerRef = useRef(null);
-  const [itemsPerPage, setItemsPerPage] = useState(1);
-  const [itemWidth, setItemWidth] = useState(200);
+
   const [gap, setGap] = useState(20);
+  const [itemWidth, setItemWidth] = useState(200);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(1);
 
   useEffect(() => {
     const updateResponsiveSettings = () => {
@@ -54,11 +57,10 @@ const BookCarousel = ({ title, bookMap }) => {
 
   const translateX = `-${currentPage * (itemWidth + gap) * itemsPerPage}px`;
 
-  const goToPage = (page) => {
+  const handleBookNavitation = (page) => {
     setCurrentPage(page);
+    navigate('/book');
   };
-
-  const totalPages = Math.ceil(bookMap.length / itemsPerPage);
 
   return (
     <div style={{ padding: "20px", maxWidth: "100%", overflow: "hidden" }} ref={containerRef}>
@@ -81,6 +83,7 @@ const BookCarousel = ({ title, bookMap }) => {
           >
             {bookMap.map((book) => (
               <div
+              onClick={handleBookNavitation}
                 key={book.key}
                 style={{
                   minWidth: `${itemWidth}px`,

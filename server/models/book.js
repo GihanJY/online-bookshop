@@ -1,4 +1,4 @@
-const { Schema, model, default: mongoose } = require('mongoose');
+const { Schema, default: mongoose } = require('mongoose');
 
 const bookSchema = new Schema({
   title: {
@@ -21,6 +21,12 @@ const bookSchema = new Schema({
     type: Number,
     required: true,
     min: 0,
+  },
+  isbn: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
   },
   image: {
     type: String,

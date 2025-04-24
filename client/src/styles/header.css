@@ -1,6 +1,7 @@
 .navbar-container {
   display: flex;
   flex-direction: column;
+  background-color: #f5f5f5;
 }
 
 .navbar {
@@ -8,15 +9,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
-  background-color: #fbfbfd;
-  border-radius: 10px;
   font-family: sans-serif;
 }
 
 .nav-top {
   display: flex;
   gap: 20px;
-  padding: 10px 40px;
+  padding: 20px 40px;
   align-items: center;
   justify-content: end;
 }
