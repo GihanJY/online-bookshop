@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/footer.css';
+import '../../styles/Footer.css';
 
 const Footer = () => {
   return (
@@ -12,10 +12,6 @@ const Footer = () => {
               <div className="f_widget company_widget">
                 <h3 className="f-title">Get in Touch</h3>
                 <p>Don’t miss any updates of our new templates and extensions.!</p>
-                <form action="#" className="f_subscribe_two" method="post">
-                  <input type="text" name="EMAIL" className="form-control memail" placeholder="Email" />
-                  <button className="btn btn_get btn_get_two" type="submit">Subscribe</button>
-                </form>
               </div>
             </div>
 
