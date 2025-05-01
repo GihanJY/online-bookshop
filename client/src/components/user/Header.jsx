@@ -1,24 +1,28 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/header.css";
+import "../../styles/Header.css";
 import { AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai";
 
 const Header = () => {
   const navigate = useNavigate();
 
+  const handleHomeButton = () => {
+    navigate('/');
+  };
+
+  const handleCartButton = () => {
+    navigate('/cart');
+  };
+
   const handleLoginButton = () => {
     navigate("/login");
   };
 
-  const handleHomeButton = () => {
-    navigate('/');
-  }
-
   return (
     <header className="navbar-container">
       <div className="nav-top">
-        <AiOutlineShoppingCart />
-        <AiOutlineUser onClick={handleLoginButton} />
+        <AiOutlineShoppingCart className="nav-top-icon" size={20} onClick={handleCartButton}/>
+        <AiOutlineUser className="nav-top-icon" size={20} onClick={handleLoginButton} />
       </div>
       <div className="navbar">
         {/* Logo */}

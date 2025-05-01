@@ -1,0 +1,82 @@
+.book-carousel-container {
+  padding: 20px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.book-carousel-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.book-carousel-wrapper {
+  position: relative;
+}
+
+.book-carousel-content {
+  overflow: hidden;
+  width: 100%;
+}
+
+.book-carousel-items {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  gap: var(--book-carousel-gap);
+}
+
+.book-carousel-item {
+  min-width: var(--book-carousel-item-width);
+  max-width: var(--book-carousel-item-width);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.book-carousel-image {
+  width: 150px;
+  height: 200px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.book-carousel-item-title {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+.book-carousel-item-authors {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.book-carousel-item-price {
+  margin: 5px 0;
+}
+
+.book-carousel-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.book-carousel-addcart-button {
+  background-color: #007bff;
+  width: 150px;
+  border-radius: 3px;
+  padding: 10px 10px;
+  border: none;
+  color: #fff;
+}
+
+.book-carousel-buynow-button {
+  background-color: #28a745;
+  width: 150px;
+  border-radius: 3px;
+  padding: 10px 10px;
+  border: none;
+  color: #fff;
+}

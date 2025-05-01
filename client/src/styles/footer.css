@@ -16,7 +16,7 @@ body {
   font-size: 14px;
   font-weight: 300;
   line-height: 20px;
-  color: #7f88a6;
+  color: #490b3d;
   padding: 10px 0px;
 }
 
@@ -24,14 +24,14 @@ body {
   margin-bottom: 30px;
   font-size: 18px;
   font-weight: 600;
-  color: #263b5e;
+  color: #490b3d;
 }
 
 .f_widget p {
   font-size: 16px;
   font-weight: 300;
   line-height: 28px;
-  color: #6a7695;
+  color: #490b3d;
   margin-bottom: 20px;
 }
 
@@ -46,12 +46,12 @@ body {
 }
 
 .f_list li a {
-  color: #6a7695;
+  color: #490b3d;
   text-decoration: none;
 }
 
 .f_list li a:hover {
-  color: #5e2ced;
+  color: #bd1e51;
 }
 
 .f_social_icon a {
@@ -60,7 +60,7 @@ body {
   border-radius: 50%;
   font-size: 20px;
   line-height: 44px;
-  color: #858da8;
+  color: #490b3d;
   background: #ebeef5;
   text-align: center;
   display: inline-block;
@@ -70,14 +70,14 @@ body {
 }
 
 .f_social_icon a:hover {
-  background: #5e2ced;
-  border-color: #5e2ced;
+  background: #bd1e51;
+  border-color: #bd1e51;
   color: white;
 }
 
 .btn_get {
-  border: 1px solid #5e2ced;
-  background: #5e2ced;
+  border: 1px solid #bd1e51;
+  background: #bd1e51;
   color: white;
   padding: 10px 20px;
   margin-top: 20px;
@@ -86,8 +86,8 @@ body {
 }
 
 .btn_get:hover {
-  background: transparent;
-  color: #5e2ced;
+  background: white;
+  color: #bd1e51;
 }
 
 .container {

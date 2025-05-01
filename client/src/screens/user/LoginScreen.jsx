@@ -1,7 +1,7 @@
 import React from 'react'
-import Footer from '../components/footer'
-import Login from '../components/login'
-import Header from '../components/header'
+import Footer from '../../components/user/Footer'
+import Header from '../../components/user/Header'
+import Login from '../../components/user/Login'
 
 function loginScreen() {
   return (

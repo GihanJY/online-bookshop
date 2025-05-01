@@ -1,0 +1,79 @@
+.dashboard-container {
+    padding: 20px;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #f1f5f9;
+}
+
+.dashboard-title {
+    color: #1e293b;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.dashboard-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card h3 {
+    color: #1e293b;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.card-value {
+    color: #0f172a;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.card-description {
+    color: #64748b;
+    font-size: 0.875rem;
+}
+
+.dashboard-card.warning {
+    border-left: 4px solid #f59e0b;
+}
+
+.dashboard-card.danger {
+    border-left: 4px solid #ef4444;
+}
+
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+.error-message {
+    background-color: #fee2e2;
+    color: #dc2626;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    text-align: center;
+}

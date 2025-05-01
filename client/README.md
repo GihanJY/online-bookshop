@@ -1,6 +1,108 @@
-# Getting Started with Create React App
+# Online Bookshop
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern online bookshop application built with React and Node.js. This application provides a platform for users to browse, search, and purchase books, while administrators can manage inventory, users, and orders.
+
+## Features
+
+### User Features
+- Browse and search books
+- View book details
+- Add books to cart
+- User authentication
+- Order management
+- Profile management
+
+### Admin Features
+- Secure admin dashboard
+- Book management (add, edit, delete)
+- User management
+- Order management
+- Sales analytics
+
+## Tech Stack
+
+- **Frontend**: React.js, React Router, Axios
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB
+- **Authentication**: JWT
+- **Styling**: CSS
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+- MongoDB
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/online-bookshop.git
+cd online-bookshop
+```
+
+2. Install dependencies for both client and server:
+```bash
+# Install client dependencies
+cd client
+npm install
+
+# Install server dependencies
+cd ../server
+npm install
+```
+
+3. Set up environment variables:
+Create a `.env` file in the client directory:
+```
+REACT_APP_BASE_URL=http://localhost:5000
+```
+
+Create a `.env` file in the server directory:
+```
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+```
+
+4. Start the development servers:
+```bash
+# Start the client (from client directory)
+npm start
+
+# Start the server (from server directory)
+npm run dev
+```
+
+The application will be available at:
+- Frontend: http://localhost:3000
+- Backend: http://localhost:5000
+
+## Project Structure
+
+```
+online-bookshop/
+├── client/                # React frontend
+│   ├── public/            # Static files
+│   ├── src/               # Source files
+│   │   ├── components/    # React components
+│   │   │   ├── admin
+│   │   │   └── user
+│   │   ├── screens/       # Page components
+│   │   │   ├── admin
+│   │   │   └── user
+│   │   ├── styles/        # CSS files
+│   │   └── utils/         # Utility functions
+│   └── package.json       # Frontend dependencies
+│
+└── server/                # Node.js backend
+    ├── controllers/       # Route controllers
+    ├── models/            # Database models
+    ├── routes/            # API routes
+    └── package.json       # Backend dependencies
+```
 
 ## Available Scripts
 
@@ -27,44 +129,21 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Contributing
 
-### `npm run eject`
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## License
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Acknowledgments
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Create React App](https://github.com/facebook/create-react-app)
+- [React Documentation](https://reactjs.org/)
+- [Node.js Documentation](https://nodejs.org/en/docs/)
+- [MongoDB Documentation](https://docs.mongodb.com/)

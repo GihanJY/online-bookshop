@@ -19,6 +19,14 @@
   align-items: center;
   justify-content: end;
 }
+
+.nav-top-icon {
+  color: #490b3d;
+}
+
+.nav-top-icon:hover {
+  color: #bd1e51;
+}
   
   /* Logo */
   .logo-circle {
@@ -59,8 +67,12 @@
   
   .nav-menu ul li a {
     text-decoration: none;
-    color: black;
+    color: #490b3d;
     font-weight: 500;
+  }
+
+  .nav-menu ul li a:hover {
+    color: #bd1e51;
   }
   
   /* Icons + Search */

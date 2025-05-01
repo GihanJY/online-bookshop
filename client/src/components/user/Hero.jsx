@@ -1,5 +1,5 @@
 import React ,{ useEffect, useState} from "react";
-import '../styles/hero.css'
+import '../../styles/Hero.css'
 
 const heroSlides = [
     {id:1, title: "Welcome to our site", subtitle: "Buy book, Read, Inspiron"},
