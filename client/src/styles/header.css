@@ -29,50 +29,29 @@
 }
   
   /* Logo */
-  .logo-circle {
-    background-color: #cce3ce;
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
+  .logo {
     display: flex;
-    justify-content: center;
     align-items: center;
-    text-align: center;
+    justify-content: center;
   }
-  
-  .logo-circle p {
-    margin: 0;
-    font-size: 10px;
-    line-height: 1.2;
-  }
-  
-  .logo-circle span {
-    font-weight: bold;
-    font-size: 10px;
-  }
-  
-  .logo-circle strong {
-    font-size: 14px;
-    font-weight: 800;
+
+  .logo img {
+    width: 70px;
+    height: auto;
   }
   
   /* Menu */
-  .nav-menu ul {
+  .nav-menu {
     display: flex;
     list-style: none;
-    gap: 30px;
+    gap: 50px;
     padding: 0;
     margin: 0;
   }
-  
-  .nav-menu ul li a {
-    text-decoration: none;
-    color: #490b3d;
-    font-weight: 500;
-  }
 
-  .nav-menu ul li a:hover {
-    color: #bd1e51;
+  .nav-menu a {
+    color: #490b3d;
+    text-decoration: none;
   }
   
   /* Icons + Search */

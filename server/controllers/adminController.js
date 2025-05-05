@@ -46,14 +46,21 @@ const createAdmin = async (req, res) => {
             { expiresIn: '1d' }
         );
 
+        // Set HTTP-only cookie
+        res.cookie('admin_token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        });
+
         res.status(201).json({
             success: true,
             message: 'Admin created successfully',
             data: {
                 id: newAdmin._id,
                 username: newAdmin.username,
-                email: newAdmin.email,
-                token
+                email: newAdmin.email
             }
         });
     } catch (error) {
@@ -66,6 +73,13 @@ const createAdmin = async (req, res) => {
     }
 };
 
+/**
+ * @desc    Login admin
+ * @route   POST /api/admin/login
+ * @param   {Object} req - Express request object containing admin credentials in the body
+ * @param   {Object} res - Express response object
+ * @returns {Object} JSON response with success message and admin data or error
+ */ 
 const loginAdmin = async (req, res) => {
     try {
         const { username, password} = req.body;
@@ -86,13 +100,45 @@ const loginAdmin = async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials'});
         }
 
-        const token = jwt.sign({ id: admin._id, role: 'admin'}, process.env.JWT_SECRET, { expiresIn: '1d'});
+        const token = jwt.sign(
+            { id: admin._id, role: 'admin'}, 
+            process.env.JWT_SECRET, 
+            { expiresIn: '1d'}
+        );
 
-        res.status(200).json({ message: 'Admin logged in successfully', token});
+        // Set HTTP-only cookie
+        res.cookie('admin_token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        });
+
+        res.status(200).json({ 
+            success: true,
+            message: 'Admin logged in successfully',
+            data: {
+                id: admin._id,
+                username: admin.username,
+                email: admin.email
+            }
+        });
     } catch (error) {
         console.error('Error logging in admin:', error);
         res.status(500).json({ message: 'Server error'});
     }
+}
+
+/**
+ * @desc    Logout admin
+ * @route   POST /api/admin/logout
+ * @param   {Object} req - Express request object
+ * @param   {Object} res - Express response object
+ * @returns {Object} JSON response with success message
+ */
+const logoutAdmin = async (req, res) => {
+    res.clearCookie('admin_token');
+    res.status(200).json({ success: true, message: 'Admin logged out successfully'});
 }
 
 /**
@@ -209,6 +255,7 @@ const deleteAdmin = async (req, res) => {
 module.exports = {
     createAdmin,
     loginAdmin,
+    logoutAdmin,
     getAdminById,
     updateAdmin,
     deleteAdmin

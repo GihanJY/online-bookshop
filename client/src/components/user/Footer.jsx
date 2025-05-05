@@ -1,5 +1,6 @@
-import React from 'react';
-import '../../styles/Footer.css';
+import React from "react";
+import "../../styles/Footer.css";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -11,52 +12,23 @@ const Footer = () => {
             <div className="col">
               <div className="f_widget company_widget">
                 <h3 className="f-title">Get in Touch</h3>
-                <p>Don’t miss any updates of our new templates and extensions.!</p>
+                <p>
+                  Don’t miss any updates of our new templates and extensions.!
+                </p>
               </div>
             </div>
 
             {/* Download */}
-            <div className="col">
-              <div className="f_widget about-widget">
-                <h3 className="f-title">Download</h3>
-                <ul className="f_list">
-                  <li><a href="#">Company</a></li>
-                  <li><a href="#">Android App</a></li>
-                  <li><a href="#">iOS App</a></li>
-                  <li><a href="#">Desktop</a></li>
-                  <li><a href="#">Projects</a></li>
-                  <li><a href="#">My tasks</a></li>
-                </ul>
+            <div className="f_widget">
+              <h3 className="f-title">Download</h3>
+              <div className="f_list">
+                <Link to={"/"}>Home</Link>
+                <Link to={"/books"}>Books</Link>
+                <Link to={"/about"}>About</Link>
               </div>
             </div>
 
-            {/* Help */}
-            <div className="col">
-              <div className="f_widget about-widget">
-                <h3 className="f-title">Help</h3>
-                <ul className="f_list">
-                  <li><a href="#">FAQ</a></li>
-                  <li><a href="#">Terms & Conditions</a></li>
-                  <li><a href="#">Reporting</a></li>
-                  <li><a href="#">Documentation</a></li>
-                  <li><a href="#">Support Policy</a></li>
-                  <li><a href="#">Privacy</a></li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Social */}
-            <div className="col">
-              <div className="f_widget social-widget">
-                <h3 className="f-title">Team Solutions</h3>
-                <div className="f_social_icon">
-                  <a href="#"><i className="fab fa-facebook"></i></a>
-                  <a href="#"><i className="fab fa-twitter"></i></a>
-                  <a href="#"><i className="fab fa-linkedin"></i></a>
-                  <a href="#"><i className="fab fa-pinterest"></i></a>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </div>
       </div>
@@ -66,10 +38,12 @@ const Footer = () => {
         <div className="container">
           <div className="row align-items-center">
             <div className="col text-left">
-              <p className="mb-0">© CakeCounter Inc. 2019 All rights reserved.</p>
+              <p className="mb-0">
+                © CakeCounter Inc. 2019 All rights reserved.
+              </p>
             </div>
             <div className="col text-right">
-              <p>Made with <i className="icon_heart"></i> in <a href="http://cakecounter.com" target="_blank" rel="noreferrer">CakeCounter</a></p>
+              
             </div>
           </div>
         </div>
