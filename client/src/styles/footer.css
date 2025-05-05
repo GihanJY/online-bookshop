@@ -20,7 +20,7 @@ body {
   padding: 10px 0px;
 }
 
-.f_widget .f-title {
+.f_widget .f-title {  
   margin-bottom: 30px;
   font-size: 18px;
   font-weight: 600;
@@ -36,6 +36,9 @@ body {
 }
 
 .f_list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -43,6 +46,7 @@ body {
 
 .f_list li {
   margin-bottom: 15px;
+  text-decoration: none;
 }
 
 .f_list li a {

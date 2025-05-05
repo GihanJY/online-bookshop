@@ -10,12 +10,16 @@ import ManageUsers from './screens/admin/ManageUsers';
 import CartScreen from './screens/user/CartScreen';
 import DashboardScreen from './screens/admin/DashboardScreen';
 import AdminLogin from './components/admin/AdminLogin';
+import BooksScreen from './screens/user/BooksScreen';
+import AboutScreen from './screens/user/AboutScreen';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path='/' element={<HomeScreen />} />
+        <Route path='/books' element={<BooksScreen />} />
+        <Route path='/about' element={<AboutScreen />} />
         <Route path='/book/:id/:title' element={<BookDetailsScreen />} />
         <Route path='/login' element={<LoginScreen />} />
         <Route path='/register' element={<RegisterScreen />} />

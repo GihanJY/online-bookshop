@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
 
 /**
  * @desc    Register a new user
@@ -23,7 +24,30 @@ const registerUser = async (req, res) => {
         const newUser = new User({ firstName, lastName, email, password });
         await newUser.save();
 
-        res.status(201).json({ message: 'User registered successfully', user: newUser });
+        // Generate JWT token
+        const token = jwt.sign(
+            { userId: newUser._id },
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
+        );
+
+        // Set HTTP-only cookie
+        res.cookie('bookstore_token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        });
+
+        res.status(201).json({
+            message: 'User registered successfully',
+            user: {
+                id: newUser._id,
+                firstName: newUser.firstName,
+                lastName: newUser.lastName,
+                email: newUser.email
+            }
+        });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
@@ -54,7 +78,46 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
-        res.status(200).json({ message: 'Login successful', user });
+        // Generate JWT token
+        const token = jwt.sign(
+            { userId: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
+        );
+
+        // Set HTTP-only cookie
+        res.cookie('bookstore_token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        });
+
+        res.status(200).json({
+            message: 'Login successful',
+            user: {
+                id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+/**
+ * @desc    Logout user
+ * @route   POST /api/users/logout
+ * @param   {Object} req - Express request object
+ * @param   {Object} res - Express response object
+ * @returns {Object} JSON response confirming logout
+ */
+const logoutUser = async (req, res) => {
+    try {
+        res.clearCookie('bookstore_token');
+        res.status(200).json({ message: 'Logged out successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
@@ -153,6 +216,7 @@ const deleteUser = async (req, res) => {
 module.exports = {
     registerUser,
     loginUser,
+    logoutUser,
     getAllUsers,
     getUserById,
     updateUser,
