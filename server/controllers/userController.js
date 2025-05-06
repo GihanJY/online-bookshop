@@ -51,16 +51,9 @@ const registerUser = async (req, res) => {
   }
 };
 
-/**
- * @desc    Login a user with email and password
- * @route   POST /api/users/login
- * @param   {Object} req - Express request object containing email and password
- * @param   {Object} res - Express response object
- * @returns {Object} JSON response with login success or error
- */
 const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, guestCart } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({ message: "All fields are required" });
@@ -76,6 +69,33 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
+    // Initialize user.cart if it doesn't exist
+    if (!user.cart) {
+      user.cart = [];
+    }
+
+    // Merge guest cart if available
+    if (guestCart && Array.isArray(guestCart)) {
+      // Assuming your User model has a "cart" array field
+      const mergedCart = [...user.cart];
+
+      guestCart.forEach((guestItem) => {
+        const index = mergedCart.findIndex(
+          (item) => item.productId === guestItem.productId
+        );
+
+        if (index >= 0) {
+          // Update quantity if item exists
+          mergedCart[index].quantity += guestItem.quantity;
+        } else {
+          mergedCart.push(guestItem);
+        }
+      });
+
+      user.cart = mergedCart;
+      await user.save();
+    }
+
     // Generate JWT token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "24h",
@@ -86,7 +106,7 @@ const loginUser = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
     res.status(200).json({
@@ -96,8 +116,44 @@ const loginUser = async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        cart: user.cart
       },
     });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+// In your userRoutes.js
+const getCart = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ cart: user.cart || [] });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+const updateCart = async (req, res) => {
+  try {
+    const { bookId, title, quantity } = req.body;
+    const user = await User.findById(req.user.userId);
+    
+    if (!user.cart) user.cart = [];
+    
+    const index = user.cart.findIndex(item => item.bookId === bookId);
+    
+    if (index >= 0) {
+      user.cart[index].quantity += quantity;
+    } else {
+      user.cart.push({ bookId, title, quantity });
+    }
+    
+    await user.save();
+    res.status(200).json({ cart: user.cart });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -218,6 +274,8 @@ module.exports = {
   registerUser,
   loginUser,
   logoutUser,
+  getCart,
+  updateCart,
   getAllUsers,
   getUserById,
   updateUser,

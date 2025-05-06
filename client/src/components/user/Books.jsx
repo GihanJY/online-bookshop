@@ -1,20 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { FiSearch, FiFilter, FiX, FiLoader, FiAlertCircle } from 'react-icons/fi';
+import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
 import '../../styles/Books.css';
 
 function Books() {
   const navigate = useNavigate();
-
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [keyword, setKeyword] = useState('');
   const [filters, setFilters] = useState([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [sortOption, setSortOption] = useState('relevance');
 
-  const fetchBooks = React.useCallback(async () => {
+  const defaultFilters = ['fiction', 'science', 'history', 'biography', 'fantasy'];
+
+  const fetchBooks = useCallback(async () => {
     try {
-      const queries = filters.length > 0 ? filters : ['novel', 'fiction', 'mystery', 'science', 'history'];
+      setLoading(true);
+      setError(null);
+      
+      const queries = filters.length > 0 ? filters : defaultFilters;
       const responses = await Promise.all(
         queries.map(query =>
           axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&country=US&maxResults=20`)
@@ -25,27 +33,46 @@ function Books() {
         response.data.items ? response.data.items : []
       );
       
-      // Remove duplicates
+      // Remove duplicates and filter out books without essential info
       const uniqueBooks = allBooks.filter(
-        (book, index, self) => index === self.findIndex(b => b.id === book.id)
+        (book, index, self) => 
+          index === self.findIndex(b => b.id === book.id) &&
+          book.volumeInfo?.title &&
+          book.volumeInfo?.authors
       );
       
-      setBooks(uniqueBooks);
+      // Sort books
+      const sortedBooks = sortBooks(uniqueBooks, sortOption);
+      setBooks(sortedBooks);
     } catch (error) {
-      setError(error);
+      setError(error.message || "Failed to fetch books");
       console.error("Error fetching books:", error);
     } finally {
       setLoading(false);
     }
-  }, [filters]);
+  }, [filters, sortOption]);
+
+  const sortBooks = (books, option) => {
+    const sorted = [...books];
+    switch(option) {
+      case 'title':
+        return sorted.sort((a, b) => a.volumeInfo.title.localeCompare(b.volumeInfo.title));
+      case 'newest':
+        return sorted.sort((a, b) => 
+          new Date(b.volumeInfo.publishedDate || 0) - new Date(a.volumeInfo.publishedDate || 0)
+        );
+      case 'rating':
+        return sorted.sort((a, b) => 
+          (b.volumeInfo.averageRating || 0) - (a.volumeInfo.averageRating || 0)
+        );
+      default: // relevance
+        return sorted;
+    }
+  };
 
   useEffect(() => {
     fetchBooks();
   }, [fetchBooks]);
-
-  const handleSearchKeyword = (e) => {
-    setKeyword(e.target.value);
-  };
 
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
@@ -56,9 +83,12 @@ function Books() {
       const response = await axios.get(
         `https://www.googleapis.com/books/v1/volumes?q=${keyword}&country=US&maxResults=40`
       );
-      setBooks(response.data.items || []);
+      const filteredBooks = (response.data.items || []).filter(
+        book => book.volumeInfo?.title && book.volumeInfo?.authors
+      );
+      setBooks(sortBooks(filteredBooks, sortOption));
     } catch (error) {
-      setError(error);
+      setError(error.message || "Search failed");
       console.error("Error searching books:", error);
     } finally {
       setLoading(false);
@@ -74,92 +104,194 @@ function Books() {
   };
 
   const handleBookSelect = (id, title) => {
-    navigate(`/book/${id}/${title}`);
-  }
+    navigate(`/book/${id}/:${title}`);
+  };
+
+  const renderRatingStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    
+    for (let i = 1; i <= 5; i++) {
+      if (i <= fullStars) {
+        stars.push(<FaStar key={i} className="star filled" />);
+      } else if (i === fullStars + 1 && hasHalfStar) {
+        stars.push(<FaStarHalfAlt key={i} className="star half-filled" />);
+      } else {
+        stars.push(<FaRegStar key={i} className="star" />);
+      }
+    }
+    
+    return (
+      <div className="rating">
+        {stars}
+        <span className="rating-count">{rating.toFixed(1)}</span>
+      </div>
+    );
+  };
+
+  const renderBookPrice = (book) => {
+    if (book.saleInfo?.saleability === "FREE") {
+      return <span className="price free">Free</span>;
+    }
+    
+    const price = book.saleInfo?.retailPrice?.amount || 
+                 book.saleInfo?.listPrice?.amount || 
+                 Math.floor(Math.random() * 20) + 5;
+    
+    return <span className="price">${price.toFixed(2)}</span>;
+  };
 
   return (
-    <div>
-      <h1>Books</h1>
-    <div className="books-container">
-      {loading && <p>Loading...</p>}
-      {error && <p>Error loading books. Please try again later.</p>}
-      {!loading && !error && books.length === 0 && <p>No books found!</p>}
-      
-      <div className='side-filter-bar'>
-        <form onSubmit={handleSearchSubmit}>
-          <input 
-            type="text" 
-            value={keyword}
-            onChange={handleSearchKeyword} 
-            placeholder="Search books..."
-          />
-          <button type="submit">Search</button>
-        </form>
+    <div className="books-page">
+      <div className="books-header">
+        <h1>Discover Your Next Read</h1>
+        <p className="subtitle">Browse our curated collection of books</p>
         
-        <div className="filter-options">
-          <label>
-            <input 
-              type="checkbox" 
-              checked={filters.includes('novel')}
-              onChange={() => handleFilterChange('novel')} 
+        <form className="search-bar" onSubmit={handleSearchSubmit}>
+          <div className="search-input-container">
+            <FiSearch className="search-icon" />
+            <input
+              type="text"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              placeholder="Search by title"
+              className="search-input"
             />
-            Novel
-          </label>
-          <label>
-            <input 
-              type="checkbox" 
-              checked={filters.includes('fiction')}
-              onChange={() => handleFilterChange('fiction')} 
-            />
-            Fiction
-          </label>
-          <label>
-            <input 
-              type="checkbox" 
-              checked={filters.includes('science')}
-              onChange={() => handleFilterChange('science')} 
-            />
-            Science
-          </label>
-          <label>
-            <input 
-              type="checkbox" 
-              checked={filters.includes('fairy')}
-              onChange={() => handleFilterChange('fairy')} 
-            />
-            Fairy Tales
-          </label>
+            <button type="submit" className="search-button">Search</button>
+          </div>
+        </form>
+      </div>
+
+      <div className="books-content">
+        <div className={`filter-sidebar ${isFilterOpen ? 'open' : ''}`}>
+          <div className="sidebar-header">
+            <h3>Filters</h3>
+            <button 
+              className="close-filters" 
+              onClick={() => setIsFilterOpen(false)}
+              aria-label="Close filters"
+            >
+              <FiX />
+            </button>
+          </div>
+          
+          <div className="filter-section">
+            <h4>Sort By</h4>
+            <select 
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className="sort-select"
+            >
+              <option value="relevance">Relevance</option>
+              <option value="title">Title (A-Z)</option>
+              <option value="newest">Newest</option>
+              <option value="rating">Highest Rating</option>
+            </select>
+          </div>
+          
+          <div className="filter-section">
+            <h4>Categories</h4>
+            <div className="filter-options">
+              {defaultFilters.map(filter => (
+                <label key={filter} className="filter-option">
+                  <input
+                    type="checkbox"
+                    checked={filters.includes(filter)}
+                    onChange={() => handleFilterChange(filter)}
+                  />
+                  <span>{filter.charAt(0).toUpperCase() + filter.slice(1)}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+          
+          <button 
+            className="apply-filters"
+            onClick={() => setIsFilterOpen(false)}
+          >
+            Apply Filters
+          </button>
+        </div>
+
+        <div className="books-main">
+          <div className="books-toolbar">
+            <button 
+              className="mobile-filter-button"
+              onClick={() => setIsFilterOpen(true)}
+            >
+              <FiFilter /> Filters
+            </button>
+            <div className="results-count">
+              {books.length} {books.length === 1 ? 'book' : 'books'} found
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="loading-state">
+              <FiLoader className="spinner" />
+              <p>Loading books...</p>
+            </div>
+          ) : error ? (
+            <div className="error-state">
+              <FiAlertCircle className="error-icon" />
+              <p>{error}</p>
+              <button onClick={fetchBooks} className="retry-button">
+                Try Again
+              </button>
+            </div>
+          ) : books.length === 0 ? (
+            <div className="empty-state">
+              <p>No books found matching your criteria</p>
+              <button 
+                onClick={() => {
+                  setKeyword('');
+                  setFilters([]);
+                  fetchBooks();
+                }}
+                className="reset-button"
+              >
+                Reset Filters
+              </button>
+            </div>
+          ) : (
+            <div className="books-grid">
+              {books.map((book) => (
+                <div 
+                  key={book.id} 
+                  className="book-card"
+                  onClick={() => handleBookSelect(book.id, book.volumeInfo.title)}
+                >
+                  <div className="book-image-container">
+                    <img
+                      src={book.volumeInfo.imageLinks?.thumbnail || '/book-cover-placeholder.png'}
+                      alt={book.volumeInfo.title}
+                      className="book-image"
+                      onError={(e) => {
+                        e.target.src = '/book-cover-placeholder.png';
+                      }}
+                    />
+                    {book.volumeInfo.averageRating && (
+                      <div className="book-rating-badge">
+                        {renderRatingStars(book.volumeInfo.averageRating)}
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="book-details">
+                    <h3 className="book-title">{book.volumeInfo.title}</h3>
+                    <p className="book-author">
+                      {book.volumeInfo.authors?.join(', ') || 'Unknown Author'}
+                    </p>
+                    {renderBookPrice(book)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-      
-      <div className="books-grid">
-        {books.map((book) => (
-          <div key={book.id} className="book-card" onClick={() => handleBookSelect(book.id, book.volumeInfo.title)}>
-            <img
-              src={book.volumeInfo.imageLinks?.thumbnail || '/bookcover.jpg'}
-              alt={book.volumeInfo.title}
-              className="book-image"
-              onError={(e) => {
-                e.target.src = 'https://via.placeholder.com/128x193?text=No+Image';
-              }}
-            />
-            <h3 className="book-carousel-item-title">{book.volumeInfo.title}</h3>
-                  <p className="book-carousel-item-authors">{book.volumeInfo.authors}</p>
-                  <p className="book-carousel-item-price">Rs. {book.volumeInfo.price}</p>
-                  <div className="book-carousel-buttons">
-                    <button
-                      className="book-carousel-addcart-button"
-                    >
-                      Add to Cart
-                    </button>
-                    <button className="book-carousel-buynow-button">
-                      Buy Now
-                    </button>
-                  </div>
-          </div>
-        ))}
-      </div>
-    </div></div>
+    </div>
   );
 }
 

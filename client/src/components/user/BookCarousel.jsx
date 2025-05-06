@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
+import { handleAddToCart } from "../../utils/cartUtils";
+
 
 import "../../styles/BookCarousel.css";
 
-const BookCarousel = ({ title, bookMap = [] }) => {
+const BookCarousel = ({ title, bookMap = [], isLoggedIn }) => {
   const navigate = useNavigate();
   const containerRef = useRef(null);
 
@@ -26,11 +28,15 @@ const BookCarousel = ({ title, bookMap = [] }) => {
         } else if (containerWidth < 900) {
           newItemWidth = 180;
           newGap = 15;
-          newItemsPerPage = Math.floor((containerWidth + newGap) / (newItemWidth + newGap));
+          newItemsPerPage = Math.floor(
+            (containerWidth + newGap) / (newItemWidth + newGap)
+          );
         } else {
           newItemWidth = 200;
           newGap = 20;
-          newItemsPerPage = Math.floor((containerWidth + newGap) / (newItemWidth + newGap));
+          newItemsPerPage = Math.floor(
+            (containerWidth + newGap) / (newItemWidth + newGap)
+          );
         }
 
         setItemWidth(newItemWidth);
@@ -78,33 +84,6 @@ const BookCarousel = ({ title, bookMap = [] }) => {
     );
   }
 
-  const handleLocalBookStore = (bookId, quantity) => {
-    try {
-      // Validate inputs
-      if (!bookId || typeof quantity !== 'number' || quantity <= 0) {
-        console.error('Invalid input parameters for handleLocalBookStore:', { bookId, quantity });
-        return;
-      }
-
-      const existingCart = JSON.parse(localStorage.getItem('guest_cart')) || [];
-
-      const updatedCart = [...existingCart];
-      const index = updatedCart.findIndex(item => item.BookID === bookId);
-
-      if (index >= 0) {
-        updatedCart[index].Quantity += quantity;
-        console.log('Updated cart:', updatedCart);
-      } else {
-        updatedCart.push({ BookID: bookId, Quantity: quantity });
-        console.log('Added new item to cart:', { BookID: bookId, Quantity: quantity });
-      }
-
-      localStorage.setItem('guest_cart', JSON.stringify(updatedCart));
-    } catch (error) {
-      console.error('Error updating cart:', error);
-    }
-  };
-
   return (
     <div className="book-carousel-container" ref={containerRef}>
       <h1 className="book-carousel-title">{title}</h1>
@@ -125,9 +104,8 @@ const BookCarousel = ({ title, bookMap = [] }) => {
                 volumeInfo.industryIdentifiers?.[0]?.identifier || "N/A";
               const title = volumeInfo.title || "Untitled";
               const authors = volumeInfo.authors?.join(", ") || "Unknown";
-              const price = book.saleInfo?.retailPrice?.amount
-                ? book.saleInfo.retailPrice.amount * 290
-                : "N/A";
+              const price = (Math.random() * 30 + 10).toFixed(2);
+              const stock = Math.floor(Math.random() * 50) + 5;
               const image =
                 volumeInfo.imageLinks?.thumbnail || "/bookcover.jpg";
               const bookId = book.id || `book-${index}`;
@@ -155,11 +133,12 @@ const BookCarousel = ({ title, bookMap = [] }) => {
                       className="book-carousel-addcart-button"
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleLocalBookStore(id, 1);
+                        handleAddToCart(isLoggedIn, id, title, 1);
                       }}
                     >
                       Add to Cart
                     </button>
+
                     <button className="book-carousel-buynow-button">
                       Buy Now
                     </button>

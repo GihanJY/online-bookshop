@@ -5,11 +5,13 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 
 dotenv.config();
+
 const app = express();
 
 const adminRoutes = require('./routes/adminRoutes.js');
 const userRoutes = require('./routes/userRoutes');
 const bookRoutes = require('./routes/bookRoutes');
+const paymentRoutes = require('./routes/paymentRoutes.js');
 
 app.use(cookieParser());
 
@@ -33,6 +35,7 @@ app.use((req, res, next) => {
 app.use('/api/admin', adminRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/books', bookRoutes);
+app.use('/api/payment', paymentRoutes);
 
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Connected to MongoDB'))
