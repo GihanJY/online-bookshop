@@ -28,8 +28,8 @@ bookstore-app/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/bookstore-app.git
-cd bookstore-app
+git clone https://github.com/GihanJY/online-bookshop.git
+cd online-bookshop
 ```
 
 ### 2. Backend Setup
@@ -48,6 +48,7 @@ Edit the .env file with your configuration:
 PORT=5000
 MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/bookstore?retryWrites=true&w=majority
 JWT_SECRET=your_jwt_secret_here
+JWT_EXPIRE=7d
 CLIENT_URL=http://localhost:3000
 ```
 
