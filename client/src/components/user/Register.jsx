@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useState } from "react";
 import { useNavigate, Link } from 'react-router-dom';
-// import PropTypes from 'prop-types';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "../../styles/Register.css";
 
 const Register = () => {
@@ -16,7 +17,6 @@ const Register = () => {
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [isRobot, setIsRobot] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -51,10 +51,6 @@ const Register = () => {
             setError('Password must be at least 6 characters long');
             return false;
         }
-        if (!isRobot) {
-            setError('Please verify that you are not a robot');
-            return false;
-        }
         return true;
     };
 
@@ -63,6 +59,7 @@ const Register = () => {
         setError('');
 
         if (!validateForm()) {
+            toast.error(error);
             return;
         }
 
@@ -74,12 +71,14 @@ const Register = () => {
                 email: formData.email,
                 password: formData.password
             });
-    
-            if (response.status === 200) {
-                navigate('/login');
+
+            if (response.status >= 200 && response.status < 300) {
+                toast.success('Registered successfully');
+                setTimeout(() => navigate('/login'), 2000); // wait 2s before redirecting
             }
         } catch (e) {
-            setError(e.response?.data?.message || 'Registration failed. Please try again.');
+            const msg = e.response?.data?.message || 'Registration failed. Please try again.';
+            toast.error(msg);
         } finally {
             setLoading(false);
         }
@@ -87,9 +86,10 @@ const Register = () => {
 
     return (
         <div className="register-container" role="main">
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
             <div className="register-image">
                 <img 
-                    src="https://th.bing.com/th/id/OIP.XHxHkV3iucoWMdUIxacQcwHaFJ?rs=1&pid=ImgDetMain" 
+                    src="/registerImage.jpg" 
                     alt="Registration illustration" 
                 />
             </div>
@@ -140,21 +140,6 @@ const Register = () => {
                         aria-label="Password"
                         required
                     />
-                    
-                    <div className="register-recaptcha-placeholder">
-                        <div className="register-recaptcha-box">
-                            <label>
-                                <input 
-                                    type="checkbox"
-                                    checked={isRobot}
-                                    onChange={(e) => setIsRobot(e.target.checked)}
-                                    aria-label="I'm not a robot"
-                                />
-                                I'm not a robot
-                            </label>
-                            <div className="register-recaptcha-img">reCAPTCHA</div>
-                        </div>
-                    </div>
 
                     <button 
                         type="submit" 
@@ -171,10 +156,6 @@ const Register = () => {
             </div>
         </div>
     );
-};
-
-Register.propTypes = {
-    // Add any props if needed in the future
 };
 
 export default Register;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../styles/BookDetails.css";
+import { handleAddToCart } from "../../utils/cartUtils";
 
 function BookDetails({ id, title }) {
   const [book, setBook] = useState(null);
@@ -59,6 +60,10 @@ function BookDetails({ id, title }) {
 
   const { volumeInfo, saleInfo } = book;
 
+  const handleAddToCard = () => {
+    console.log("Add to cart clicked");
+  };
+
   return (
     <div className="book-details-container">
       <div className="book-container">
@@ -73,7 +78,6 @@ function BookDetails({ id, title }) {
               e.target.src = "/bookcover.jpg";
             }}
           />
-          {/* <span className="discount-badge">20%</span> */}
         </div>
 
         {/* Book Info Section */}
@@ -88,8 +92,7 @@ function BookDetails({ id, title }) {
             {volumeInfo?.authors?.join(", ") || "Unknown"}
           </p>
           <p>
-            <strong>Page Count:</strong>{" "}
-            {volumeInfo?.pageCount || "N/A"}
+            <strong>Page Count:</strong> {volumeInfo?.pageCount || "N/A"}
           </p>
           <p>
             <strong>ISBN:</strong>{" "}
@@ -98,14 +101,25 @@ function BookDetails({ id, title }) {
 
           <div className="price-section">
             <span className="original-price">
-              Rs. {saleInfo?.retailPrice?.amount ? Math.round(saleInfo.retailPrice.amount * 150) : "N/A"}
+              Rs.{" "}
+              {saleInfo?.retailPrice?.amount
+                ? Math.round(saleInfo.retailPrice.amount * 150)
+                : "N/A"}
             </span>
           </div>
 
           <div className="stock-status">In Stock</div>
 
           <div className="button-group">
-            <button className="book-request-btn">Add To Cart</button>
+            <button
+              className="book-request-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAddToCart(id, title, 1);
+              }}
+            >
+              Add To Cart
+            </button>
             <button className="wishlist-btn">Buy Now</button>
           </div>
         </div>

@@ -1,0 +1,258 @@
+/* Payment Container */
+.payment-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Header */
+  .payment-header {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .payment-header h1 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  
+  .checkout-steps {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+  }
+  
+  .checkout-steps span {
+    position: relative;
+    color: #999;
+  }
+  
+  .checkout-steps span.active {
+    color: #000;
+    font-weight: 500;
+  }
+  
+  .checkout-steps span.completed {
+    color: #4CAF50;
+  }
+  
+  .checkout-steps span:not(:last-child):after {
+    content: "→";
+    position: absolute;
+    right: -20px;
+    color: #999;
+  }
+  
+  /* Payment Content */
+  .payment-content {
+    display: flex;
+    gap: 30px;
+  }
+  
+  .payment-main {
+    flex: 2;
+  }
+  
+  .payment-sidebar {
+    flex: 1;
+  }
+  
+  /* Form Styles */
+  .payment-form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .form-section {
+    margin-bottom: 30px;
+  }
+  
+  .form-section h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .form-row .form-group {
+    flex: 1;
+  }
+  
+  /* Card Element */
+  .card-element-container {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  
+  /* Payment Button */
+  .pay-button {
+    width: 100%;
+    padding: 15px;
+    background: #000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .pay-button:hover {
+    background: #333;
+  }
+  
+  .pay-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Error Message */
+  .payment-error {
+    color: #e53935;
+    margin: 15px 0;
+    padding: 10px;
+    background: #ffebee;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  /* Order Summary */
+  .order-summary {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+  }
+  
+  .order-summary h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  
+  .summary-item.total {
+    font-weight: 600;
+    font-size: 16px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+  }
+  
+  /* Order Items */
+  .order-items {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .order-items h4 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .order-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  
+  .order-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  
+  .item-image {
+    width: 60px;
+    height: 80px;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .item-image img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  .item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .item-title {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .item-quantity {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 5px;
+  }
+  
+  .item-price {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .payment-content {
+      flex-direction: column;
+    }
+    
+    .payment-sidebar {
+      order: -1;
+      margin-bottom: 30px;
+    }
+  }
