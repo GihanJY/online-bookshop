@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 dotenv.config();
 const app = express();
 
-const adminRoutes = require('./routes/adminRoutes');
+const adminRoutes = require('./routes/adminRoutes.js');
 const userRoutes = require('./routes/userRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 
@@ -52,5 +52,3 @@ const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`Server running on port http://localhost:${PORT}`);
 });
-
-res.clearCookie('bookstore_token');

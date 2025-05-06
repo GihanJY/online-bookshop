@@ -1,27 +1,42 @@
-import React, { useState } from 'react';
-import '../../styles/Cart.css'; 
+import Cookies from 'js-cookie';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../context/AuthContext';
 
 function Cart() {
-  const [items, setItems] = useState(['Apple', 'Banana', 'Orange']);
+  const [items, setItems] = useState([]);
+  const { loggedIn } = useAuth();
+
+  useEffect(() => {
+    if (loggedIn) {
+      const cookieCart = Cookies.get('cart');
+      try {
+        const parsedCart = cookieCart ? JSON.parse(cookieCart) : [];
+        setItems(parsedCart);
+      } catch (error) {
+        console.error("Error parsing cookie cart:", error);
+        setItems([]);
+      }
+    } else {
+      const guestCart = localStorage.getItem('guest_cart');
+      try {
+        const parsedCart = guestCart ? JSON.parse(guestCart) : [];
+        setItems(parsedCart);
+      } catch (error) {
+        console.error("Error parsing local cart:", error);
+        setItems([]);
+      }
+    }
+  }, [loggedIn]);
 
   return (
     <div className="cart-container">
-      <div className="cart-content">
-        <div className="cart-items-section">
-          <h1 className="cart-title">Shopping Cart</h1>
-          <ul className="cart-items-list">
-            {items.map((item, index) => (
-              <li key={index} className="cart-item">
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="cart-summary-section">
-          <h3 className="summary-title">Summary</h3>
-          <p className="summary-total">Total Items: {items.length}</p>
-        </div>
-      </div>
+      <h1>Shopping Cart</h1>
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}>{item.title} — {item.quantity}</li>
+        ))}
+      </ul>
+      <p>Total Items: {items.length}</p>
     </div>
   );
 }

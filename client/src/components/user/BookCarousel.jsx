@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+
 import "../../styles/BookCarousel.css";
 
 const BookCarousel = ({ title, bookMap = [] }) => {

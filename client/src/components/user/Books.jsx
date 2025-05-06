@@ -74,7 +74,7 @@ function Books() {
   };
 
   const handleBookSelect = (id, title) => {
-    navigate(`/book/:${id}/:${title}`);
+    navigate(`/book/${id}/${title}`);
   }
 
   return (
@@ -136,7 +136,7 @@ function Books() {
         {books.map((book) => (
           <div key={book.id} className="book-card" onClick={() => handleBookSelect(book.id, book.volumeInfo.title)}>
             <img
-              src={book.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x193?text=No+Image'}
+              src={book.volumeInfo.imageLinks?.thumbnail || '/bookcover.jpg'}
               alt={book.volumeInfo.title}
               className="book-image"
               onError={(e) => {
