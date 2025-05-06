@@ -1,6 +1,6 @@
 const Admin = require('../models/admin');
 const jwt = require('jsonwebtoken');
-const { route } = require('../routes/adminRoutes');
+const { route } = require('../routes/adminRoutes.js');
 
 /**
  * @desc    Create a new admin
