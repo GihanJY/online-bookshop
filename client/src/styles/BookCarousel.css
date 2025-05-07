@@ -24,6 +24,7 @@
   gap: var(--book-carousel-gap);
 }
 
+/* Ensure consistent card height and layout */
 .book-carousel-item {
   min-width: var(--book-carousel-item-width);
   max-width: var(--book-carousel-item-width);
@@ -33,18 +34,32 @@
   text-align: center;
   flex-shrink: 0;
   cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
 }
 
 .book-carousel-image {
   width: 150px;
   height: 200px;
   object-fit: cover;
-  margin-bottom: 10px;
+  margin: 0 auto 10px;
 }
 
-.book-carousel-item-title {
+.book-carousel-item-title,
+.book-carousel-item-authors {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 1rem;
   margin: 5px 0;
+  text-align: center;
 }
 
 .book-carousel-item-authors {
@@ -54,29 +69,45 @@
 
 .book-carousel-item-price {
   margin: 5px 0;
+  font-weight: bold;
 }
 
+/* Push buttons to bottom with consistent spacing */
 .book-carousel-buttons {
+  margin-top: auto;
   display: flex;
   justify-content: center;
   gap: 10px;
   flex-wrap: wrap;
+  padding-top: 10px;
 }
 
 .book-carousel-addcart-button {
   background-color: #007bff;
   width: 150px;
   border-radius: 3px;
-  padding: 10px 10px;
+  padding: 10px;
   border: none;
   color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.book-carousel-addcart-button:hover {
+  background-color: #0056b3;
 }
 
 .book-carousel-buynow-button {
   background-color: #28a745;
   width: 150px;
   border-radius: 3px;
-  padding: 10px 10px;
+  padding: 10px;
   border: none;
   color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.book-carousel-buynow-button:hover {
+  background-color: #1e7e34;
 }

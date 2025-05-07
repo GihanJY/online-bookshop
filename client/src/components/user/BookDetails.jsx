@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../../styles/BookDetails.css";
+import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { handleAddToCart } from "../../utils/cartUtils";
+import { useAuth } from "../../context/AuthContext";
+import "../../styles/BookDetails.css";
 
-function BookDetails({ id, title }) {
+function BookDetails({ id, title, price }) {
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -42,7 +46,7 @@ function BookDetails({ id, title }) {
     };
 
     fetchBookDetails();
-  }, [id, title]);
+  }, [id, title, price]);
 
   if (loading) {
     return <div className="book-details-container">Loading...</div>;
@@ -59,10 +63,6 @@ function BookDetails({ id, title }) {
   }
 
   const { volumeInfo, saleInfo } = book;
-
-  const handleAddToCard = () => {
-    console.log("Add to cart clicked");
-  };
 
   return (
     <div className="book-details-container">
@@ -101,10 +101,7 @@ function BookDetails({ id, title }) {
 
           <div className="price-section">
             <span className="original-price">
-              Rs.{" "}
-              {saleInfo?.retailPrice?.amount
-                ? Math.round(saleInfo.retailPrice.amount * 150)
-                : "N/A"}
+              $.{parseFloat(price).toFixed(2)}
             </span>
           </div>
 
@@ -120,7 +117,18 @@ function BookDetails({ id, title }) {
             >
               Add To Cart
             </button>
-            <button className="wishlist-btn">Buy Now</button>
+            <button className="wishlist-btn" onClick={(e) => {
+              e.stopPropagation();
+              if (isLoggedIn) {
+                localStorage.setItem('checkout_cart', JSON.stringify(book));
+                localStorage.setItem('checkout_total', price);
+                navigate("/payment");
+              }
+              else {
+                navigate("/login");
+                alert("Please login to buy the book.");
+              }
+            }}>Buy Now</button>
           </div>
         </div>
       </div>

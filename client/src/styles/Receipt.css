@@ -1,0 +1,50 @@
+.receipt-page {
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 40px 30px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.receipt-page h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.receipt-page p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.download-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+  background-color: #45a049;
+}
+
+@media (max-width: 600px) {
+  .receipt-page {
+    margin: 30px 15px;
+    padding: 30px 20px;
+  }
+
+  .download-btn {
+    width: 100%;
+    padding: 14px;
+  }
+}

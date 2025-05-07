@@ -6,12 +6,12 @@ import Footer from '../../components/user/Footer';
 import BookDetails from '../../components/user/BookDetails';
 
 function BookDetailsScreen() {
-  const { id, title } = useParams();
+  const { id, title, price } = useParams();
 
   return (
     <div>
       <Header />
-      <BookDetails id={id} title={title} />
+      <BookDetails id={id} title={title} price={price} />
       <Footer />
     </div>
   )

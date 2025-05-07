@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import '../../styles/Hero.css';
 
 const heroSlides = [
@@ -26,6 +27,7 @@ const heroSlides = [
 ];
 
 const HeroSlider = () => {
+    const navigate = useNavigate();
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
 
@@ -71,7 +73,10 @@ const HeroSlider = () => {
                         <div className="hero-content">
                             <h1 className="hero-title">{slide.title}</h1>
                             <p className="hero-subtitle">{slide.subtitle}</p>
-                            <button className="hero-cta">{slide.cta}</button>
+                            <button className="hero-cta" onClick={(e) => {
+                                e.preventDefault();
+                                navigate('/books')}}
+                                >{slide.cta}</button>
                         </div>
                     </div>
                 ))}

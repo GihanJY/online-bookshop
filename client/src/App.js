@@ -9,7 +9,8 @@ import CartScreen from './screens/user/CartScreen';
 import BooksScreen from './screens/user/BooksScreen';
 import AboutScreen from './screens/user/AboutScreen';
 import PaymentGateway from './components/user/PaymentGateway';
-import Success from './components/user/PaymentSuccess';
+import Success from './components/user/Success';
+import Receipt from './components/user/Receipt';
 
 function App() {
   return (
@@ -18,13 +19,14 @@ function App() {
         <Route path='/' element={<HomeScreen />} />
         <Route path='/books' element={<BooksScreen />} />
         <Route path='/about' element={<AboutScreen />} />
-        <Route path='/book/:id/:title' element={<BookDetailsScreen />} />
+        <Route path='/book/:id/:title/:price' element={<BookDetailsScreen />} />
         <Route path='/login' element={<LoginScreen />} />
         <Route path='/profile' element={<LoginScreen />} />
         <Route path='/register' element={<RegisterScreen />} />
         <Route path='/cart' element={<CartScreen />} />
         <Route path='/payment' element={<PaymentGateway />} />
         <Route path='/success' element={<Success />} />
+        <Route path='/receipt' element={<Receipt />} />
       </Routes>
     </Router>
   );

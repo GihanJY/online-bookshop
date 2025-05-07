@@ -45,7 +45,7 @@ function Cart() {
     };
 
     fetchCart();
-  }, [loggedIn, baseUrl]);
+  }, [baseUrl, loggedIn]);
 
   const calculateTotal = () => {
     return items.reduce((total, item) => {
@@ -100,6 +100,8 @@ function Cart() {
   };
 
   const makePayment = async () => {
+    localStorage.setItem('checkout_cart', JSON.stringify(items));
+    localStorage.setItem('checkout_total', calculateTotal());
     navigate('/payment');
   };
 

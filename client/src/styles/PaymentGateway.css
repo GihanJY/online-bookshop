@@ -34,3 +34,7 @@
     cursor: pointer;
   }
   
+  .total-amount {
+    display: flex;
+    justify-content: space-between;
+  }
