@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import { handleAddToCart } from "../../utils/cartUtils";
+import { useAuth } from "../../context/AuthContext";
 
 
 import "../../styles/BookCarousel.css";
 
-const BookCarousel = ({ title, bookMap = [], isLoggedIn }) => {
+const BookCarousel = ({ title, bookMap = []}) => {
   const navigate = useNavigate();
   const containerRef = useRef(null);
+  const { isLoggedIn } = useAuth();
 
   const [gap, setGap] = useState(20);
   const [itemWidth, setItemWidth] = useState(200);
@@ -69,8 +71,8 @@ const BookCarousel = ({ title, bookMap = [], isLoggedIn }) => {
 
   const translateX = `-${currentPage * (itemWidth + gap) * itemsPerPage}px`;
 
-  const handleBookNavigation = (id, title) => {
-    navigate(`/book/${id}/${title}`);
+  const handleBookNavigation = (id, title, price) => {
+    navigate(`/book/${id}/${encodeURIComponent(title)}/${price}`);
   };
 
   if (!bookMap || bookMap.length === 0) {
@@ -113,7 +115,7 @@ const BookCarousel = ({ title, bookMap = [], isLoggedIn }) => {
               return (
                 <div
                   key={bookId}
-                  onClick={() => handleBookNavigation(id, title)}
+                  onClick={() => handleBookNavigation(id, title, price)}
                   className="book-carousel-item"
                 >
                   <img
@@ -139,7 +141,18 @@ const BookCarousel = ({ title, bookMap = [], isLoggedIn }) => {
                       Add to Cart
                     </button>
 
-                    <button className="book-carousel-buynow-button">
+                    <button className="book-carousel-buynow-button" onClick={(e) => {
+                        e.stopPropagation();
+                        if (isLoggedIn) {
+                          localStorage.setItem('checkout_cart', JSON.stringify(book));
+                          localStorage.setItem('checkout_total', price);
+                          navigate("/payment");
+                        }
+                        else {
+                          navigate("/login");
+                          alert("Please login to buy the book.");
+                        }
+                      }}>
                       Buy Now
                     </button>
                   </div>

@@ -8,9 +8,7 @@ dotenv.config();
 
 const app = express();
 
-const adminRoutes = require('./routes/adminRoutes.js');
 const userRoutes = require('./routes/userRoutes');
-const bookRoutes = require('./routes/bookRoutes');
 const paymentRoutes = require('./routes/paymentRoutes.js');
 
 app.use(cookieParser());
@@ -32,9 +30,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/api/admin', adminRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/books', bookRoutes);
 app.use('/api/payment', paymentRoutes);
 
 mongoose.connect(process.env.MONGODB_URI)

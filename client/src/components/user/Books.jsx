@@ -21,27 +21,25 @@ function Books() {
     try {
       setLoading(true);
       setError(null);
-      
+
       const queries = filters.length > 0 ? filters : defaultFilters;
       const responses = await Promise.all(
         queries.map(query =>
           axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&country=US&maxResults=20`)
         )
       );
-      
-      const allBooks = responses.flatMap(response => 
+
+      const allBooks = responses.flatMap(response =>
         response.data.items ? response.data.items : []
       );
-      
-      // Remove duplicates and filter out books without essential info
+
       const uniqueBooks = allBooks.filter(
-        (book, index, self) => 
+        (book, index, self) =>
           index === self.findIndex(b => b.id === book.id) &&
           book.volumeInfo?.title &&
           book.volumeInfo?.authors
       );
-      
-      // Sort books
+
       const sortedBooks = sortBooks(uniqueBooks, sortOption);
       setBooks(sortedBooks);
     } catch (error) {
@@ -54,18 +52,18 @@ function Books() {
 
   const sortBooks = (books, option) => {
     const sorted = [...books];
-    switch(option) {
+    switch (option) {
       case 'title':
         return sorted.sort((a, b) => a.volumeInfo.title.localeCompare(b.volumeInfo.title));
       case 'newest':
-        return sorted.sort((a, b) => 
+        return sorted.sort((a, b) =>
           new Date(b.volumeInfo.publishedDate || 0) - new Date(a.volumeInfo.publishedDate || 0)
         );
       case 'rating':
-        return sorted.sort((a, b) => 
+        return sorted.sort((a, b) =>
           (b.volumeInfo.averageRating || 0) - (a.volumeInfo.averageRating || 0)
         );
-      default: // relevance
+      default:
         return sorted;
     }
   };
@@ -77,7 +75,7 @@ function Books() {
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
     if (!keyword.trim()) return;
-    
+
     try {
       setLoading(true);
       const response = await axios.get(
@@ -96,22 +94,43 @@ function Books() {
   };
 
   const handleFilterChange = (filter) => {
-    setFilters(prev => 
-      prev.includes(filter) 
-        ? prev.filter(f => f !== filter) 
+    setFilters(prev =>
+      prev.includes(filter)
+        ? prev.filter(f => f !== filter)
         : [...prev, filter]
     );
   };
 
-  const handleBookSelect = (id, title) => {
-    navigate(`/book/${id}/:${title}`);
+  const getBookPrice = (book) => {
+    if (book.saleInfo?.saleability === "30") {
+      return 0;
+    }
+
+    return (
+      book.saleInfo?.retailPrice?.amount ||
+      book.saleInfo?.listPrice?.amount ||
+      Math.floor(Math.random() * 20) + 5
+    );
+  };
+
+  const renderBookPrice = (book) => {
+    const price = getBookPrice(book);
+    return (
+      <span className={`price ${price === 0 ? 'free' : ''}`}>
+        {price === 0 ? 'Free' : `$${price.toFixed(2)}`}
+      </span>
+    );
+  };
+
+  const handleBookSelect = (id, title, price) => {
+    navigate(`/book/${id}/${encodeURIComponent(title)}/${price}`);
   };
 
   const renderRatingStars = (rating) => {
     const stars = [];
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 >= 0.5;
-    
+
     for (let i = 1; i <= 5; i++) {
       if (i <= fullStars) {
         stars.push(<FaStar key={i} className="star filled" />);
@@ -121,7 +140,7 @@ function Books() {
         stars.push(<FaRegStar key={i} className="star" />);
       }
     }
-    
+
     return (
       <div className="rating">
         {stars}
@@ -130,24 +149,12 @@ function Books() {
     );
   };
 
-  const renderBookPrice = (book) => {
-    if (book.saleInfo?.saleability === "FREE") {
-      return <span className="price free">Free</span>;
-    }
-    
-    const price = book.saleInfo?.retailPrice?.amount || 
-                 book.saleInfo?.listPrice?.amount || 
-                 Math.floor(Math.random() * 20) + 5;
-    
-    return <span className="price">${price.toFixed(2)}</span>;
-  };
-
   return (
     <div className="books-page">
       <div className="books-header">
         <h1>Discover Your Next Read</h1>
         <p className="subtitle">Browse our curated collection of books</p>
-        
+
         <form className="search-bar" onSubmit={handleSearchSubmit}>
           <div className="search-input-container">
             <FiSearch className="search-icon" />
@@ -167,18 +174,18 @@ function Books() {
         <div className={`filter-sidebar ${isFilterOpen ? 'open' : ''}`}>
           <div className="sidebar-header">
             <h3>Filters</h3>
-            <button 
-              className="close-filters" 
+            <button
+              className="close-filters"
               onClick={() => setIsFilterOpen(false)}
               aria-label="Close filters"
             >
               <FiX />
             </button>
           </div>
-          
+
           <div className="filter-section">
             <h4>Sort By</h4>
-            <select 
+            <select
               value={sortOption}
               onChange={(e) => setSortOption(e.target.value)}
               className="sort-select"
@@ -189,7 +196,7 @@ function Books() {
               <option value="rating">Highest Rating</option>
             </select>
           </div>
-          
+
           <div className="filter-section">
             <h4>Categories</h4>
             <div className="filter-options">
@@ -205,8 +212,8 @@ function Books() {
               ))}
             </div>
           </div>
-          
-          <button 
+
+          <button
             className="apply-filters"
             onClick={() => setIsFilterOpen(false)}
           >
@@ -216,7 +223,7 @@ function Books() {
 
         <div className="books-main">
           <div className="books-toolbar">
-            <button 
+            <button
               className="mobile-filter-button"
               onClick={() => setIsFilterOpen(true)}
             >
@@ -243,7 +250,7 @@ function Books() {
           ) : books.length === 0 ? (
             <div className="empty-state">
               <p>No books found matching your criteria</p>
-              <button 
+              <button
                 onClick={() => {
                   setKeyword('');
                   setFilters([]);
@@ -257,10 +264,12 @@ function Books() {
           ) : (
             <div className="books-grid">
               {books.map((book) => (
-                <div 
-                  key={book.id} 
+                <div
+                  key={book.id}
                   className="book-card"
-                  onClick={() => handleBookSelect(book.id, book.volumeInfo.title)}
+                  onClick={() =>
+                    handleBookSelect(book.id, book.volumeInfo.title, getBookPrice(book))
+                  }
                 >
                   <div className="book-image-container">
                     <img
@@ -277,7 +286,7 @@ function Books() {
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="book-details">
                     <h3 className="book-title">{book.volumeInfo.title}</h3>
                     <p className="book-author">

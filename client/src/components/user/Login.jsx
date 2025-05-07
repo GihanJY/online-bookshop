@@ -43,9 +43,7 @@ function Login() {
 
         // Set cookies
         Cookies.set("user", JSON.stringify(response.data.user), { expires: 1 });
-        Cookies.set("cart", JSON.stringify(response.data.user.cart), {
-          expires: 1,
-        });
+        Cookies.set("cart", JSON.stringify(response.data.user.cart), { expires: 1 });
 
         setIsLoggedIn(true);
         toast.success("Login successful!");

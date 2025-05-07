@@ -6,34 +6,32 @@ function About() {
     <div className="about-container">
       <div className="about-header">
         <h1>About Us</h1>
-        <p>Get to know who we are and what we do.</p>
+        <p>Learn more about our bookstore and what we offer.</p>
       </div>
 
       <div className="about-content">
         <div className="about-text">
           <h2>Our Mission</h2>
           <p>
-            Our mission is to deliver high-quality digital solutions that empower businesses and individuals to achieve their goals.
-            We are passionate about innovation, excellence, and building lasting relationships with our clients.
+            Our mission is to connect readers with the books they love. We aim to provide a wide range of books, excellent customer service, and a seamless shopping experience for book enthusiasts everywhere.
           </p>
 
           <h2>What We Do</h2>
           <p>
-            We specialize in software development, UI/UX design, and cloud-based services. Our team consists of dedicated professionals
-            with years of experience in the industry, ready to tackle complex problems with creative solutions.
+            We specialize in offering a curated selection of books across various genres, including fiction, non-fiction, academic, and children's literature. Whether you're looking for the latest bestseller or a timeless classic, we've got you covered.
           </p>
 
           <h2>Why Choose Us</h2>
           <ul>
-            <li>Customer-first approach</li>
-            <li>Experienced and certified team</li>
-            <li>Transparent process and communication</li>
-            <li>End-to-end project delivery</li>
+            <li>Extensive collection of books</li>
+            <li>Affordable prices and great deals</li>
+            <li>Fast and reliable delivery</li>
+            <li>Friendly and knowledgeable staff</li>
           </ul>
         </div>
 
         <div className="about-image">
-          <img src="/logo.png" alt="Team working" />
+          <img src="/logo.png" alt="Books on a shelf" />
         </div>
       </div>
     </div>
