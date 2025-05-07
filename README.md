@@ -11,11 +11,14 @@ bookstore-app/
 │   ├── .env                # Frontend environment variables
 │   └── package.json        # Frontend dependencies
 │
-└── server/                 # Node.js backend
-    ├── models/             # MongoDB models
-    ├── routes/             # API routes
-    ├── .env                # Backend environment variables
-    └── package.json        # Backend dependencies
+├── server/                 # Node.js backend
+│   ├── models/             # MongoDB models
+│   ├── routes/             # API routes
+│   ├── .env                # Backend environment variables
+│   └── package.json        # Backend dependencies
+│
+└── documents/              # Project-related documents
+
 ```
 
 ## Prerequisites
